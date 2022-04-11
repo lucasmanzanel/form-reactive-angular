@@ -4,28 +4,66 @@
   <div class="form-card">
       <h1 class="title">Reactive Forms</h1>
 
-      <form class="form">
+      <form class="form" [formGroup]="formIncluit" (ngSubmit)="enviar()">
         <div class="form__group field">
-          <input type="input" class="form__field" placeholder="Nombre" />
+          <input type="input" class="form__field" placeholder="Nombre" formControlName="nombre" />
           <label for="Nombre" class="form__label">Nombre</label>
         </div>
+
+        <div *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)"
+        style="color:red">
+          <div *ngIf="nombre?.errors?.['required']">
+            El nombre es requerido
+          </div>
+          <div *ngIf="nombre?.errors?.['minlength']">
+            La cantidad minina es 3 letras
+          </div>
+        </div>
   
         <div class="form__group field">
-          <input type="input" class="form__field" placeholder="Edad" />
+          <input type="input" class="form__field" placeholder="Edad" formControlName="edad" />
           <label for="Edad" class="form__label">Edad</label>
         </div>
+
+        <div  *ngIf="edad?.invalid && (edad?.dirty || edad?.touched)"
+        style="color:red">
+          <div *ngIf="edad?.errors?.['required']">
+            La edad es requerida
+          </div>
+          <div *ngIf="edad?.errors?.['max']">
+            La edad no puede superar mas de 180
+          </div>
+          <div *ngIf="edad?.errors?.['pattern']">
+            Solo numeros
+          </div>
+        </div>
   
         <div class="form__group field">
-          <input type="input" class="form__field" placeholder="Empresa" />
+          <input type="input" class="form__field" placeholder="Empresa" formControlName="empresa" />
           <label for="Empresa" class="form__label">Empresa</label>
         </div>
+
+        <div style="color:red"
+        *ngIf="formIncluit.get('empresa')?.invalid && (formIncluit.get('empresa')?.dirty || formIncluit.get('empresa')?.touched)">
+          La empresa es requerida
+        </div>
   
         <div class="form__group field">
-          <input type="input" class="form__field" placeholder="Email" />
+          <input type="input" class="form__field" placeholder="Email" formControlName="email" />
           <label for="Email" class="form__label">Email</label>
         </div>
+
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+        style="color:red">
+          <div *ngIf="email?.errors?.['required']">
+            El email es requerido
+          </div>
+          <div *ngIf="email?.errors?.['email']">
+            Formato de email invalido 
+          </div>
+        </div>
      
-        <button class="btn" [disabled]="false"> Enviar </button>
+        <button class="btn" [disabled]="formIncluit.invalid"> Enviar </button>
       </form>
      
   </div>
